@@ -4,16 +4,22 @@ describe('Оформленный заказ', async function() {
         const puppeteer = await browser.getPuppeteer();
         const [page] = await puppeteer.pages();
 
-        await page.goto('http://localhost:3000/hw/store/catalog');
+        await page.goto('http://localhost:3000/hw/store');
 
-        const productDetailLink = await page.waitForSelector('[data-testid="link-product_detail"]');
-        await productDetailLink.click();
+        const mock = {
+            1: {
+                name: 'test',
+                price: 100,
+                count: 1
+            }
+        }
 
-        const addToCartButton = await page.waitForSelector('.ProductDetails-AddToCart');
-        await addToCartButton.click();
+        await page.evaluate(mock => {
+            window.localStorage.clear();
+            window.localStorage.setItem('example-store-cart', JSON.stringify(mock));
+        }, mock);
 
-        const cartLink = await page.waitForSelector('[data-testid="link-cart"]');
-        await cartLink.click();
+        await page.goto('http://localhost:3000/hw/store/cart');
 
         await page.focus('.Form-Field_type_name');
         await page.keyboard.type('test');
