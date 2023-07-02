@@ -4,6 +4,12 @@ describe('Карточка товара', async function() {
         const puppeteer = await browser.getPuppeteer();
         const [page] = await puppeteer.pages();
 
+        await page.goto('http://localhost:3000/hw/store/');
+
+        await page.evaluate(() => {
+            window.localStorage.clear();
+        });
+
         const productInfo = {
             id: 1,
             name: 'test',
@@ -38,6 +44,12 @@ describe('Карточка товара', async function() {
     it('отображает корректные данные', async function({ browser }) {
         const puppeteer = await browser.getPuppeteer();
         const [page] = await puppeteer.pages();
+
+        await page.goto('http://localhost:3000/hw/store/');
+
+        await page.evaluate(() => {
+            window.localStorage.clear();
+        });
 
         await page.goto('http://localhost:3000/hw/store/catalog');
 
