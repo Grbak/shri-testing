@@ -27,9 +27,9 @@ describe('Карточка товара', async function() {
         const detailMock = await browser.mock(`http://localhost:3000/hw/store/api/products/${productInfo.id}`);
         detailMock.respond(product)
 
-        const element = await page.waitForSelector('[data-testid="link-product_detail"');
+        const element = await page.waitForSelector('[data-testid="link-product_detail"]');
         await element.click();
 
-        await browser.assertView('plain', 'body');
+        await browser.assertView('plain', '.Product');
     });
 });
