@@ -6,13 +6,13 @@ describe('Оформленный заказ', async function() {
 
         await page.goto('http://localhost:3000/hw/store/catalog');
 
-        const productDetailLink = await page.waitForSelector('[data-testid="link-product_detail"');
+        const productDetailLink = await page.waitForSelector('[data-testid="link-product_detail"]');
         await productDetailLink.click();
 
         const addToCartButton = await page.waitForSelector('.ProductDetails-AddToCart');
         await addToCartButton.click();
 
-        const cartLink = await page.waitForSelector('[data-testid="link-cart"');
+        const cartLink = await page.waitForSelector('[data-testid="link-cart"]');
         await cartLink.click();
 
         await page.focus('.Form-Field_type_name');
@@ -22,9 +22,13 @@ describe('Оформленный заказ', async function() {
         await page.focus('.Form-Field_type_address');
         await page.keyboard.type('test');
 
-        const checkoutButton = await page.waitForSelector('[data-testid="button-submit"');
+        const checkoutButton = await page.waitForSelector('[data-testid="button-submit"]');
         await checkoutButton.click();
 
-        await browser.assertView('plain', 'body');
+        await browser.assertView('plain', '[data-testid="order_status"]', {
+            ignoreElements: [
+                '[data-testid="paragraph-order_info"]'
+            ]
+        });
     });
 });
