@@ -8,6 +8,7 @@ module.exports = {
   browsers: {
     chrome: {
       automationProtocol: "devtools",
+      retry: 4,
       desiredCapabilities: {
         browserName: "chrome",
       },
