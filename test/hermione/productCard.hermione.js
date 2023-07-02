@@ -31,5 +31,24 @@ describe('Карточка товара', async function() {
         await element.click();
 
         await browser.assertView('plain', '.Product');
+
+        browser.mockRestoreAll();
+    });
+
+    it('отображает корректные данные', async function({ browser }) {
+        const puppeteer = await browser.getPuppeteer();
+        const [page] = await puppeteer.pages();
+
+        await page.goto('http://localhost:3000/hw/store/catalog');
+
+        const detailsLink = await page.waitForSelector('[data-testid="product_card-0"] [data-testid="link-product_detail"]');
+        const cardName = await page.waitForSelector('[data-testid="product_card-0"] .ProductItem-Name');
+        const cardPrice = await page.waitForSelector('[data-testid="product_card-0"] .ProductItem-Price');
+        await detailsLink.click();
+        const detailsName = await page.waitForSelector('.ProductDetails-Name');
+        const detailsPrice = await page.waitForSelector('.ProductDetails-Price');
+
+        expect(detailsName).toStrictEqual(cardName);
+        expect(cardPrice).toStrictEqual(detailsPrice);
     });
 });
